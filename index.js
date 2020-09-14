@@ -1,6 +1,10 @@
 const fs = require('fs')
 const fetch = require('node-fetch')
 const homedir = require('os').homedir();
+const https = require("https");
+const agent = new https.Agent({
+  rejectUnauthorized: false
+})
 
 var filepath = homedir+'/.lnd/data/chain/bitcoin/mainnet/admin.macaroon'
 
@@ -23,6 +27,7 @@ async function go() {
 async function getWithMacaroon(mac){
     try {
         const r = await fetch(url,{
+            agent,
             headers:{
                 'Grpc-Metadata-macaroon': mac
             }
