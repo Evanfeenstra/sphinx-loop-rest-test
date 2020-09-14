@@ -12,16 +12,9 @@ var url = 'https://localhost:8080/v1/loop/out/quote/250000'
 
 async function go() {
     console.log(filepath)
-    fs.readFile(filepath, 'utf8', function (err, data) {
-        if (err) {
-            return console.log(err);
-        }
-        const buf = Buffer.from(data, 'ascii');
-        //converting string into buffer
-        var hexvalue = buf.toString('hex').toUpperCase();
-        //with buffer, convert it into hex
-        getWithMacaroon(hexvalue)
-    });
+    var macaroonString = fs.readFileSync(filepath);
+    var macaroonHexString = Buffer.from(macaroonString, 'utf8').toString('hex');
+    getWithMacaroon(macaroonHexString)
 }
 
 async function getWithMacaroon(mac){
